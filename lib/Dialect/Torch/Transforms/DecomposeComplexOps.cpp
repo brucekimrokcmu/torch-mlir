@@ -4432,6 +4432,8 @@ public:
       return rewriter.notifyMatchFailure(
           op, "all stride list elements must be constant ints");
 
+
+
     // We only support the cases with default stride values.
     // For ex: aten.new_empty_strided(self, size=[2, 3, 4], stride=[12, 4, 1])
     // Here the stride[0] == size[1] * size[2], stride[1] == size[2], and
@@ -4451,11 +4453,11 @@ public:
           op, "only default strides supported for new_empty_strided op");
 
     Value noneVal = rewriter.create<ConstantNoneOp>(op.getLoc());
-
+    llvm::outs()<<"Debug stmt1\n";
     rewriter.replaceOpWithNewOp<AtenEmptyMemoryFormatOp>(
         op, op.getType(), op.getSize(), op.getDtype(), op.getLayout(), op.getDevice(),
         op.getPinMemory(), /*memoryFormat=*/noneVal);
-
+    llvm::outs()<<"Debug stmt2\n";
     return success();
 
 
